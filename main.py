@@ -11,7 +11,16 @@ from telegram_bot import send_telegram_signal
 from strategy_manager import StrategyManager
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
+import os
+from fastapi.staticfiles import StaticFiles
+# ... resto del código ...
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+if os.path.exists(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+else:
+    print("Warning: static directory not found, skipping mount")
+templates_dir = os.path.join(os.path.dirname(__file__), "templates")
+templates = Jinja2Templates(directory=templates_dir)
 templates = Jinja2Templates(directory="templates")
 
 engine = PatternEngine()
