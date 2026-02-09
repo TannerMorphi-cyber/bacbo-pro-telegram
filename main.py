@@ -100,3 +100,8 @@ async def delete_strategy(idx: int, x_secret: str = Header(None)):
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=False)
+    TWILIO_ACCOUNT_SID=xxxxx
+TWILIO_AUTH_TOKEN=xxxxx
+SALON_CODE=BF
+TIMEZONE=America/Mexico_City
+
