@@ -105,3 +105,30 @@ TWILIO_AUTH_TOKEN=xxxxx
 SALON_CODE=BF
 TIMEZONE=America/Mexico_City
 
+from datetime import datetime
+from fastapi import Body
+
+appointments = []
+
+@app.post("/create-appointment")
+def create_appointment(data: dict = Body(...)):
+    appointments.append(data)
+    return {"status": "ok"}
+
+@app.get("/today-appointments")
+def today_appointments():
+    today = datetime.now().strftime("%Y-%m-%d")
+    return [
+        a for a in appointments
+        if a.get("date") == today
+    ]
+
+@app.post("/mark-arrived")
+def mark_arrived(code: str = Body(...)):
+    for a in appointments:
+        if a["code"] == code:
+            a["status"] = "Llegó"
+            return {"status": "updated"}
+    return {"status": "not_found"}
+
+
